@@ -146,7 +146,7 @@ explicativo.
 | `poblaciones` | tupla de `int` | — | `(N_1, …, N_n)`: agentes de cada tipo. Su longitud define `n`. La suma debe ser ≤ `L²`. |
 | `H` | matriz | — | `n×n` o `n×(n+1)`. Con `n×n` se añade una columna de vacío llena de ceros. |
 | `tau` | número o vector | `0.5` | Umbral de comodidad: común o uno por tipo. |
-| `iota` | número o vector | `0` | Incomodidad de un agente aislado (solo en el modelo P). |
+| `iota` | `"max"`, número o vector | `"max"` | Incomodidad de un agente aislado (solo en el modelo P). `"max"` usa `iota[i] = max_j H[i, j]` (sin la columna de vacío). |
 | `modelo` | `"P"` o `"S"` | `"P"` | Modelo promediado o de suma. |
 | `vecindad` | `"moore"` o `"von_neumann"` | `"moore"` | Forma de la vecindad. |
 | `radio` | `int` | `1` | Radio de la vecindad. |

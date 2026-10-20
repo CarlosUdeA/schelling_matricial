@@ -23,7 +23,7 @@ from schelling_matricial import Config, Simulacion, ejecutar_replicas
 cfg = Config(
     L=40, poblaciones=(700, 700),   # N_1, N_2; el resto son vacíos
     H=[[0, 1], [1, 0]],             # n×n o n×(n+1) (última columna: vacío)
-    tau=0.5, iota=0, modelo="P",
+    tau=0.5, iota="max", modelo="P",
     vecindad="moore", radio=1,
     busqueda="cercano", T_max=1000, seed=123,
 )

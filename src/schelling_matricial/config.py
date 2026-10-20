@@ -48,7 +48,10 @@ class Config:
       columna de ceros). `H[i, j]` es la incomodidad que un agente de tipo i+1
       asocia a un vecino de tipo j+1.
     - `tau`: umbral común (escalar) o por tipo (vector de longitud n).
-    - `iota`: incomodidad de un agente aislado en el modelo P (escalar o vector).
+    - `iota`: incomodidad de un agente aislado en el modelo P: "max" (por
+      defecto, iota_i = max_j H[i, j] sobre los tipos, sin la columna de
+      vacío: el aislamiento vale como la peor vecindad posible), un escalar o
+      un vector.
     - `modelo`: "P" (promediado) o "S" (de suma).
     - `vecindad`: "moore" o "von_neumann"; `radio`: radio de la vecindad.
     - `busqueda`: regla de elección de destino ("cercano" en v0.1).
@@ -63,7 +66,7 @@ class Config:
     poblaciones: Sequence[int]
     H: Sequence[Sequence[Numero]]
     tau: Union[Numero, Sequence[Numero]] = 0.5
-    iota: Union[Numero, Sequence[Numero]] = 0
+    iota: Union[str, Numero, Sequence[Numero]] = "max"
     modelo: str = "P"
     vecindad: str = "moore"
     radio: int = 1
@@ -115,7 +118,13 @@ class Config:
                 raise ValueError(f"cada fila de H debe tener {n} o {n + 1} columnas")
         H_frac = [[a_fraccion(x) for x in f] for f in filas]
         tau_frac = _vector(self.tau, n, "tau")
-        iota_frac = _vector(self.iota, n, "iota")
+        if isinstance(self.iota, str):
+            if self.iota != "max":
+                raise ValueError(f"iota debe ser 'max', un número o un vector, no {self.iota!r}")
+            # Se transforma con H: max_j(λH + μ) = λ·max_j H + μ si λ > 0.
+            iota_frac = [max(f[:n]) for f in H_frac]
+        else:
+            iota_frac = _vector(self.iota, n, "iota")
 
         todos = [x for f in H_frac for x in f] + tau_frac + iota_frac
         escala = lcm(*(x.denominator for x in todos))

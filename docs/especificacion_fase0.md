@@ -45,9 +45,13 @@ esa carpeta.
   - Semántica: `H[i, j]` es la incomodidad que un agente de tipo `i+1` asocia
     a un vecino de tipo `j+1`.
 - `tau`: escalar (umbral común) o vector de longitud `n` (umbral por tipo).
-- `iota`: escalar o vector de longitud `n`. Es la incomodidad de un agente
-  aislado (`n(x) = 0`) en el modelo P. Por defecto vale `0`, que es la
-  convención del borrador.
+- `iota`: `"max"`, escalar o vector de longitud `n`. Es la incomodidad de un
+  agente aislado (`n(x) = 0`) en el modelo P. Por defecto vale `"max"`:
+  `iota[i] = max_j H[i, j]`, con `j` sobre los tipos (sin la columna de vacío),
+  es decir, el aislamiento vale como la peor vecindad posible. Es la
+  convención del artículo (nota de la sección 3) y se transforma con `H`, así
+  que respeta la invariancia afín. Antes el valor por defecto era `0`
+  (convención del borrador).
 - `modelo`: `"P"` o `"S"`.
 
 ### 1.3 Incomodidad
@@ -142,7 +146,7 @@ from schelling_matricial import Config, Simulacion, ejecutar_replicas
 cfg = Config(
     L=40, poblaciones=(700, 700),                 # N_1, N_2; resto vacíos
     H=[[0, 1], [1, 0]],                           # n×n o n×(n+1)
-    tau=0.5, iota=0, modelo="P",
+    tau=0.5, iota="max", modelo="P",
     vecindad="moore", radio=1,
     busqueda="cercano", T_max=1000, seed=123,
 )
@@ -258,8 +262,11 @@ los extras de desarrollo (`pip install -e ".[dev]"`).
   ninguna.
 
 ## 7. Decisiones ya tomadas por defecto (modificables)
-- `iota = 0` (convención del borrador) y `H[i,vac] = 0` (convención del código
-  antiguo).
+- `iota = "max"` (`iota[i] = max_j H[i, j]`, convención del artículo) y
+  `H[i,vac] = 0` (convención del código antiguo).
 - `tau` común, aunque se admite un vector por tipo.
-- Regla de búsqueda `"cercano"` con distancia de Chebyshev toroidal.
+- Regla de búsqueda `"cercano"` con distancia de Chebyshev toroidal y desempate
+  al azar. Entre los vacíos que mejoran estrictamente (`I_y < I_x`) se elige el
+  más cercano; no se exige que el destino sea cómodo (`I_y <= tau`). Es la
+  convención del artículo.
 - Actualización asíncrona con permutación aleatoria en cada barrido.

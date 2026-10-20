@@ -85,3 +85,24 @@ def test_sumar_solo_a_ocupados_cambia_S():
                                tau=lam * 2 + k * mu)
         distintas += not iguales(trayectoria(original), trayectoria(solo_ocupados))
     assert distintas > 0
+
+
+def test_iota_max():
+    # Solo cuentan las columnas de tipos, no la de vacío.
+    cfg = Config(L=12, poblaciones=(10, 10, 10), H=[f + [5] for f in H3], modelo="P")
+    assert [Fraction(int(x), cfg.escala) for x in cfg.iota_ent] == [1, 2, 1]
+
+
+def test_invariancia_P_con_iota_max():
+    # Con iota="max" no hace falta transformar iota: max_j(λH + μ) = λ·max_j H + μ.
+    for caso in casos_P():
+        caso = {**caso, "iota": "max"}
+        for lam, mu in [(Fraction(5, 2), Fraction(-7, 10)), (Fraction(1, 3), 4)]:
+            original = Config(**BASE_P, **caso)
+            transformado = Config(
+                **BASE_P, poblaciones=caso["poblaciones"], iota="max",
+                H=transformar(caso["H"], lam, mu), tau=lam * caso["tau"] + mu,
+            )
+            t1, t2 = trayectoria(original), trayectoria(transformado)
+            assert len(t1) > 2
+            assert iguales(t1, t2)
