@@ -1,0 +1,305 @@
+\documentclass{article}
+\usepackage[english]{babel}
+\usepackage[letterpaper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+
+\usepackage{tikz}
+\usepackage{amsthm,amssymb,amsfonts}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage[all]{xy}
+\usepackage{pb-diagram}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{adjustbox}
+\usepackage{multirow}
+\usepackage{booktabs}
+\usepackage{color, colortbl}
+\usepackage{comment}
+
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,
+    urlcolor=blue,
+    citecolor=blue
+}
+\urlstyle{same}
+\definecolor{Gray}{gray}{0.9}
+
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}
+
+%\theoremstyle{theorem}
+\newtheorem{theorem}{Theorem}
+
+%\theoremstyle{lemma}
+\newtheorem{lemma}{Lemma}
+
+%\theoremstyle{corollary}
+\newtheorem{corollary}{Corollary}
+
+\title{A matrix extension of the Schelling model based on local discomfort
+}
+\author{David Bl\'azquez-Sanz, Luis F. Jim\'enez Buitrago, Carlos Alberto Mar\'{\i}n Arango \& Juan J. Usuga }
+
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+The Schelling model is a classical agent-based model with two types of agents, where each individual tolerates a certain proportion of agents of the other type. In this work, we propose a variation of Schelling's segregation model in
+which agents of types \(1\) and \(-1\) interact through type-dependent
+discomfort rules defined by a matrix $H=(H_{i,j})$. Under this framework, agents of type \(i\) experience a level of discomfort $H_{i,j}$ toward agents  of type $j$, allowing for aversion even among agents of the same type. Using affine transformations, we show that the discomfort matrix captures key theoretical properties of the  model and characterizes the nature of agent interactions. Specifically, our framework enables us to determine whether the system exhibits Schelling or anti-Schelling behavior, and whether the agents display homophilic or heterophilic preferences.
+
+We introduce the local discomfort function $I^H$ and the total discomfort of a configuration, and we show how both transform under positive affine changes of the matrix $H$.
+
+\end{abstract}
+
+\section{Introduction}
+
+The study of social segregation models was pioneered by economist Thomas Schelling in 1971 \cite{schelling1971dynamic}. In this model, agents are located on a grid and relocated if their dissatisfaction exceeds a given tolerance threshold, seeking to maximize their individual well-being.
+
+Schelling's foundational framework has provided a basis for analyzing complex social dynamics and emergent behavior. For instance Clark and Fossett \cite{clark2008understanding} extended the model by assigning distinct tolerance levels to individual agents, enabling the study of heterogeneous segregation patterns. Pancs and Vriend \cite{pancs2007schelling} integrated the model into a microeconomic framework, demonstrating that high levels of segregation can emerge even when residents' individual preferences favor complete integration. Similarly, Goles et al. \cite{goles2020migration} applied Sakoda's seminal framework to migration processes involving three agent types governed by rules of attraction, repulsion, or indifference. Their approach first establishes the stabilization of an energy function for a two-agent system before introducing a third agent type (migrants), allowing them to assess shifts in social tension. Finally, Hatna and Benenson \cite{hatna2012schelling} examined ethnic and racial segregation by assigning varying tolerance thresholds across different demographic groups and comparing the resulting macro-patterns with Schelling's baseline results.
+
+\section{Matrix Extension of Schelling's Classical Model}
+We consider two agent types, labeled $-1$ and $1$, distributed on an $L\times L$ toroidal grid. Let $\mathcal{A}$ denote the set of all agents, and let $\mathcal{N}_{occ}(a)$ be the set of occupied neighbors of the agent $a$ within a Moore neighborhood.
+
+We define the sets of similar and different neighbors of agent $a$, respectively, along with their cardinalities:
+\[
+s_a=\#\{b\in \mathcal{N}_{occ}(a): t_b=t_a\}, \quad d_a=\#\{b\in \mathcal{N}_{occ}(a) : t_b \neq t_a \}. 
+\] 
+With this notation, the total number of neighbors of agent $a$ is $|\mathcal{N}_{\mathrm{occ}}(a)| :n_a=s_a+d_a.$
+
+Thus, the classical local discomfort for an agent $a$ is given by: 
+\[
+I_a^{\mathrm{Cl}}=\frac{d_a}{n_a}
+\]
+We define the local discomfort matrix as
+\[
+H=\begin{bmatrix}
+H_{1,1} & H_{1,-1} \\
+H_{-1,1} & H_{-1,-1}
+\end{bmatrix},
+\]
+where the entry $H_{i,j}$ represents the discomfort experienced by an agent $a$ of type $i$ due to an agent of type $j$. 
+If $n_a>0$, the local discomfort of agent $a$ is defined by
+\[
+I_a^H = \frac{1}{n_a} \sum_{b \in \mathcal{N}_{\mathrm{occ}}(a)} H_{t_a, t_b},
+\]
+If $n_a=0$, we set $I_a^H=\iota_{t_a}$, where
+\[
+\iota_i=\max_j H_{i,j},
+\]
+that is, isolation is valued as the worst possible neighborhood. Based on this function, the total discomfort of a configuration $\eta$ is given by
+\[
+I^H(\eta) = \sum_{a \in \mathcal{A}} I_a^H.
+\]
+This function provides an overall measure of the system based on the local discomfort experienced by each agent.
+
+For a site $z$ of the grid, we write $I_z^H(a)$ for the local discomfort that agent $a$ would have at $z$; when $z$ is an empty site, $a$ itself is not counted as a neighbor of $z$. The dynamics in our model are as follows. At each sweep, every agent acts once, in a random order. An agent $a$ at position $x$ is \emph{uncomfortable} if its discomfort is greater than a fixed tolerance parameter $\tau$, that is, if
+\[
+I_x^H(a) > \tau.
+\]
+An uncomfortable agent considers the empty sites $y$ such that
+\[
+I_y^H(a) < I_x^H(a),
+\]
+and moves to the nearest one (Chebyshev distance on the torus), with ties broken at random. The destination is not required to be comfortable, only to improve the current discomfort. If no empty site improves its discomfort, the agent remains in the same place.
+
+\subsection{A Return to the Classical Model}
+
+If we consider the discomfort  matrix  
+
+\[
+H^{\mathrm{Cl}}=\begin{bmatrix}
+0 & 1 \\
+1 & 0
+\end{bmatrix}
+\]
+then for an agent $a$, the local discomfort associated with this matrix is given by:
+\[
+I_a^{H^{Cl}} = \frac{1}{s_a+d_a} \sum_{b \in \mathcal{N}_{\mathrm{occ}}(a)} H_{t_a, t_b}=\frac{0\cdot s_a+1\cdot d_a}{s_a+d_a}=\frac{d_a}{s_a+d_a}=I_a^{\mathrm{Cl}},
+\]
+in this case, we obtain the discomfort function of Schelling's classical model.
+
+\section{Invariance under positive affine transformations}
+The matrix formulation above allows us to identify an invariance property with respect to linear scaling and translations of the discomfort matrix entries. Let
+\[
+\widetilde H=\alpha H+\beta \textbf{1},
+\]
+where $\textbf{1}$ denotes the matrix with all the entries equal to 1, $\beta \in \mathbb R$ and $\alpha > 0.$ For an agent $a$ with a non-empty neighborhood, the local discomfort is given by
+\[
+I_a^{\widetilde{H}} = \frac{1}{n_a} \sum_{b \in \mathcal{N}_{\text{occ}}(a)} (\alpha H_{t_a, t_b} + \beta).
+\]
+Therefore,
+\[
+I_a^{\widetilde{H}} = \alpha \frac{1}{n_a} \sum_{b \in \mathcal{N}_{\text{occ}}(a)} H_{t_a, t_b} + \frac{1}{n_a} \sum_{b \in \mathcal{N}_{\text{occ}}(a)} \beta = \alpha I_a^H + \beta . \tag{1}
+\]
+For an isolated agent, since $\alpha>0$,
+\[
+\widetilde\iota_i=\max_j\left(\alpha H_{i,j}+\beta\right)=\alpha\max_j H_{i,j}+\beta=\alpha\iota_i+\beta,
+\]
+so that (1) also holds when $n_a=0$. Consequently, the relative order of discomfort is preserved. Specifically, if $x$ is the current position of an agent $a$ and $y$ is an empty site of the grid, we have
+\[
+I_y^H(a) < I_x^H(a) \iff I_y^{\widetilde{H}}(a) < I_x^{\widetilde{H}}(a).
+\]
+Thus, the agents' movement rule is invariant under positive affine transformations of the discomfort matrix
+\[
+\widetilde{H} = \alpha H + \beta \textbf{1}, \quad \alpha > 0,
+\]
+provided that the tolerance parameters satisfy
+\[
+\widetilde{\tau} = \alpha \tau + \beta.
+\]
+Indeed
+\[
+I_a^H \le \tau \iff \alpha I_a^H + \beta \le \alpha \tau + \beta \iff I_a^{\widetilde{H}} \le \widetilde{\tau}.
+\]
+In conclusion, $H$ and $\widetilde H = \alpha H + \beta \textbf{1}$, where $\alpha>0$, yield identical decision-making and spatial dynamics under the transformed tolerance threshold $\widetilde \tau = \alpha \tau + \beta.$ Since the isolation value satisfies $\widetilde\iota=\alpha\iota+\beta$, and the order of the agents and the tie-breaking do not depend on $H$, the trajectories under $H$ and $\widetilde H$ (with the same random choices) are identical move by move.
+
+\subsection{Effect on total discomfort.}
+Given the affine transformation $\widetilde{H} = \alpha H + \beta \mathbf{1}$, recall that the local discomfort for an agent $a$ satisfies
+\[
+I_a^{\widetilde{H}} = \alpha I_a^H + \beta .
+\]
+Consequently, the relationship between the total discomforts under both discomfort matrices is given by
+\[
+I^{\widetilde{H}} = \sum_{a \in \mathcal{A}} I_a^{\widetilde{H}} = \sum_{a \in \mathcal{A}} (\alpha I_a^H + \beta) = \alpha I^H + \beta N,
+\]
+where $N = |\mathcal{A}|$ denotes the total number of agents in the model.
+
+Let $\eta$ and $\eta'$ be two different configurations. The corresponding changes in total discomfort are defined as
+\[
+\Delta I^H = I^H(\eta') - I^H(\eta), \quad \Delta I^{\widetilde{H}} = I^{\widetilde{H}}(\eta') - I^{\widetilde{H}}(\eta).
+\]
+Substituting the total discomfort relationship yields
+\[
+\Delta I^{\widetilde{H}} = \left(\alpha I^H(\eta') + \beta N\right) - \left(\alpha I^H(\eta) + \beta N\right)=\alpha \left(I^H(\eta') - I^H(\eta)\right),
+\]
+which simplifies to
+\[
+\Delta I^{\widetilde{H}} = \alpha \Delta I^H.
+\]
+Assuming $\alpha > 0$, it follows that
+\[
+\Delta I^H < 0 \iff \Delta I^{\widetilde{H}} < 0.
+\]
+
+Since the isolation value also transforms as $\widetilde\iota=\alpha\iota+\beta$, these relations hold for every configuration, including those with isolated agents.
+
+\begin{remark}
+An individual improvement does not imply, in general, that the total discomfort decreases. If agent $a$ moves from $x$ to $y$, producing the configuration $\eta'$ from $\eta$, then
+\[
+\Delta I^H = \left(I_y^H(a)-I_x^H(a)\right) + \sum_{b \in B} \left(I_b^H(\eta')-I_b^H(\eta)\right),
+\]
+where $B$ is the set of agents, other than $a$, that are neighbors of $x$ or of $y$; the discomfort of every other agent is unchanged. The first term is negative by the movement rule, but the changes experienced by the former and the new neighbors of $a$ may be positive and larger in absolute value, so that $\Delta I^H>0$. Hence $I^H$ is not, in general, a Lyapunov function of the dynamics.
+\end{remark}
+
+\section{Characterization of the discomfort matrix}
+
+Suppose that the discomfort matrix is given by
+\[
+H=\begin{bmatrix}
+a & b \\
+c & d
+\end{bmatrix},
+\]
+where the first row and column correspond to type $1$ and the second ones to type $-1$. (We use $a,b,c,d$ to avoid confusion with the parameters $\alpha,\beta$ of Section 3.) In the case where $a \neq b$, consider the positive affine transformation
+\[
+\widetilde{H}=\frac{1}{\left| b-a \right|}(H-a \textbf{1}),
+\]
+which, by Section 3, yields the same dynamics as $H$ with the tolerance threshold $\widetilde\tau=\frac{\tau-a}{|b-a|}$. This matrix
+which can be rewritten as
+\[
+\widetilde{H}=\begin{bmatrix}
+0 & \epsilon \\
+\sigma & \rho
+\end{bmatrix},
+\]
+where $\varepsilon =\operatorname{sgn}(b-a)=\pm 1$, $\sigma=\frac{c-a}{\left| b-a \right|}$ and $\rho=\frac{d-a}{\left| b-a  \right|}.$
+Thus, for an agent $a$ with a non-empty neighborhood, its local discomfort function satisfies:
+\begin{itemize}
+    \item $I_a^{\widetilde{H}}=\varepsilon I_a^{\mathrm{Cl}}$, if the type of $a$ is $1$;
+    \item $I_a^{\widetilde{H}}=\rho+(\sigma-\rho)I_a^{\mathrm{Cl}}$, if the type of $a$ is $-1$.
+\end{itemize}
+Thus, the behavior of type $1$ agents depends on $\varepsilon$, and that of type $-1$ agents depends on $\sigma-\rho=\frac{c-d}{\left| b-a  \right|}.$
+
+In the case $a=b$, the discomfort of a type $1$ agent with a non-empty neighborhood is the constant $a$, whatever its neighbors are, so type $1$ agents are neutral; the behavior of type $-1$ agents is still determined by the sign of $c-d$.
+Based on the discomfort matrix $\widetilde{H}$, the behavior of the agents is summarized in the following tables
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|c|c|c|c|}
+\hline
+$\varepsilon$ & $\sigma - \rho$ & type $1$ & type $-1$ \\
+\hline
+$1$ & $\sigma - \rho > 0$ & homophilic & homophilic \\
+\hline
+$1$ & $\sigma - \rho = 0$ & homophilic & neutral \\
+\hline
+$1$ & $\sigma - \rho < 0$ & homophilic & heterophilic \\
+\hline
+$-1$ & $\sigma - \rho > 0$ & heterophilic & homophilic \\
+\hline
+$-1$ & $\sigma - \rho = 0$ & heterophilic & neutral \\
+\hline
+$-1$ & $\sigma - \rho < 0$ & heterophilic & heterophilic \\
+\hline
+\end{tabular}
+\end{table}
+
+and, in terms of the entries of the discomfort matrix $H$,
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|c|c|c|c|}
+\hline
+$b - a$ & $c - d$ & type $1$ & type $-1$ \\
+\hline
+$b - a > 0$ & $c - d > 0$ & homophilic & homophilic \\
+\hline
+$b - a > 0$ & $c - d = 0$ & homophilic & neutral \\
+\hline
+$b - a > 0$ & $c - d < 0$ & homophilic & heterophilic \\
+\hline
+$b - a < 0$ & $c - d > 0$ & heterophilic & homophilic \\
+\hline
+$b - a < 0$ & $c - d = 0$ & heterophilic & neutral \\
+\hline
+$b - a < 0$ & $c - d < 0$ & heterophilic & heterophilic \\
+\hline
+$b - a = 0$ & $c - d > 0$ & neutral & homophilic \\
+\hline
+$b - a = 0$ & $c - d = 0$ & neutral & neutral \\
+\hline
+$b - a = 0$ & $c - d < 0$ & neutral & heterophilic \\
+\hline
+\end{tabular}
+\end{table}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\newpage
+\bibliographystyle{ieeetr}
+%\bibliographystyle{alpha}
+\bibliography{sample}
+
+\end{document}
