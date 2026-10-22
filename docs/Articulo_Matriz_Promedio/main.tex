@@ -269,6 +269,14 @@ $\Delta_i=0$ & neutral & constant $h_i$ & --- & inert ($h_i\le\tau$) or frozen (
 \label{tab:types}
 \end{table}
 
+\paragraph{Schelling and anti-Schelling behavior.} When both types are non-neutral, the orientations $(s_1,s_{-1})$ classify the behavior of the system:
+\begin{itemize}
+    \item \emph{Schelling behavior} if $s_1=s_{-1}=1$: both types are homophilic and, by Theorem~\ref{thm:reduction}, the dynamics is that of a classical Schelling model with population-specific thresholds, which favors segregated configurations;
+    \item \emph{anti-Schelling behavior} if $s_1=s_{-1}=-1$: both types are heterophilic and the dynamics is that of a classical Schelling model in which the preference is inverted in both populations, each agent tolerating a proportion $\theta_i$ of neighbors of its own type. It is the opposite of the classical dynamics, and it favors mixed configurations, in which agents of different types alternate;
+    \item \emph{mixed (pursuit) behavior} if $s_1 s_{-1}=-1$: the agents of the homophilic type try to avoid those of the other type, while the agents of the heterophilic type seek them.
+\end{itemize}
+Thus the matrix $H$ determines both the preference of each population (homophilic, neutral or heterophilic) and the behavior of the system as a whole.
+
 
 \newpage
 \bibliographystyle{ieeetr}
