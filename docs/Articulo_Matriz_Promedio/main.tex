@@ -76,11 +76,11 @@ The model studied in this work shares with Sakoda's the description of the inter
 With respect to the other lines, the averaged discomfort generalizes the cost of the average type-distance games of \cite{bilo2023schelling}: with finitely many types, their cost is $I^H_a$ with $H_{i,j}$ the distance between the types $i$ and $j$, whereas $H$ may be any real matrix, not necessarily symmetric, with negative entries or with non-zero diagonal. For two types with values $0$ and $1$, the matrix is $H^{\mathrm{Cl}}$, and our isolation value $\iota_i=\max_j H_{i,j}=1$ corresponds to the variant in which an isolated agent pays the maximal cost. When the threshold is lower than every possible discomfort, all agents are uncomfortable and the fixed points of our dynamics are exactly the equilibria of the corresponding jump game, in which the cost of an agent is $I^H_a$, including the isolation value. The results of statistical physics \cite{dallasta2008statistical} concern the classical model; by Theorem~\ref{thm:reduction}, they are relevant for the averaged model with two homophilic populations and equal reduced thresholds, up to the rule used to choose the destination. Finally, the matrix formulation includes, in a single framework, homophilic, neutral and heterophilic populations, and therefore the anti-Schelling behavior introduced in Section 4.
 
 \section{Matrix Extension of Schelling's Classical Model}
-We consider two agent types, labeled $-1$ and $1$, distributed on an $L\times L$ toroidal grid. Let $\mathcal{A}$ denote the set of all agents, and let $\mathcal{N}_{occ}(a)$ be the set of occupied neighbors of the agent $a$ within a Moore neighborhood.
+We consider two agent types, labeled $-1$ and $1$, distributed on an $L\times L$ toroidal grid. Let $\mathcal{A}$ denote the set of all agents. For a site $x$ of the grid, let $V(x)$ be its neighborhood, that is, the set of sites that are neighbors of $x$ (not including $x$), and let $k=|V(x)|$. On the torus every site has the same number $k$ of neighbors. Our main example is the Moore neighborhood of radius $1$, formed by the eight sites surrounding $x$, for which $k=8$. Other natural choices are the Moore neighborhood of radius $r$, with $k=(2r+1)^2-1$, and the von Neumann neighborhood of radius $r$, with $k=2r(r+1)$; in both cases we assume $L>2r$, so that no site appears twice in $V(x)$. If agent $a$ is located at $x$, let $\mathcal{N}_{\mathrm{occ}}(a)$ be the set of agents located in $V(x)$, the occupied neighbors of $a$.
 
 We define the sets of similar and different neighbors of agent $a$, respectively, along with their cardinalities:
 \[
-s_a=\#\{b\in \mathcal{N}_{occ}(a): t_b=t_a\}, \quad d_a=\#\{b\in \mathcal{N}_{occ}(a) : t_b \neq t_a \}. 
+s_a=\#\{b\in \mathcal{N}_{\mathrm{occ}}(a): t_b=t_a\}, \quad d_a=\#\{b\in \mathcal{N}_{\mathrm{occ}}(a) : t_b \neq t_a \}. 
 \] 
 With this notation, the total number of neighbors of agent $a$ is $|\mathcal{N}_{\mathrm{occ}}(a)| :n_a=s_a+d_a.$
 
@@ -143,11 +143,11 @@ The matrix formulation above allows us to identify an invariance property with r
 \]
 where $\textbf{1}$ denotes the matrix with all the entries equal to 1, $\beta \in \mathbb R$ and $\alpha > 0.$ For an agent $a$ with a non-empty neighborhood, the local discomfort is given by
 \[
-I_a^{\widetilde{H}} = \frac{1}{n_a} \sum_{b \in \mathcal{N}_{\text{occ}}(a)} (\alpha H_{t_a, t_b} + \beta).
+I_a^{\widetilde{H}} = \frac{1}{n_a} \sum_{b \in \mathcal{N}_{\mathrm{occ}}(a)} (\alpha H_{t_a, t_b} + \beta).
 \]
 Therefore,
 \[
-I_a^{\widetilde{H}} = \alpha \frac{1}{n_a} \sum_{b \in \mathcal{N}_{\text{occ}}(a)} H_{t_a, t_b} + \frac{1}{n_a} \sum_{b \in \mathcal{N}_{\text{occ}}(a)} \beta = \alpha I_a^H + \beta . \tag{1}
+I_a^{\widetilde{H}} = \alpha \frac{1}{n_a} \sum_{b \in \mathcal{N}_{\mathrm{occ}}(a)} H_{t_a, t_b} + \frac{1}{n_a} \sum_{b \in \mathcal{N}_{\mathrm{occ}}(a)} \beta = \alpha I_a^H + \beta . \tag{1}
 \]
 For an isolated agent, since $\alpha>0$,
 \[
@@ -252,7 +252,7 @@ Therefore, with two populations, a type with $s_i=1$ is a Schelling agent that t
     \item \emph{active} if $0\le\theta_i<1$;
     \item \emph{always uncomfortable} if $\theta_i<0$: its agents are uncomfortable in every neighborhood, move as long as they can reduce $f_a$ (or $g_a$), and any fixed point of the dynamics is blocked.
 \end{itemize}
-In terms of the entries of $H$, these regimes read $\tau\ge\max(h_i,\bar h_i)$, $\min(h_i,\bar h_i)\le\tau<\max(h_i,\bar h_i)$ and $\tau<\min(h_i,\bar h_i)$, respectively. For instance, $H=\begin{bmatrix}0.6&0.8\\0.8&0.6\end{bmatrix}$ is homophilic for both types, but with $\tau=0.5$ we get $\theta_1=\theta_{-1}=-0.5$: no agent is ever comfortable. Moreover, since $f_a$ only takes values $m/n$ with $0\le m\le n\le 8$, the dynamics depends on $\theta_i$ only through the set of these fractions that do not exceed it.
+In terms of the entries of $H$, these regimes read $\tau\ge\max(h_i,\bar h_i)$, $\min(h_i,\bar h_i)\le\tau<\max(h_i,\bar h_i)$ and $\tau<\min(h_i,\bar h_i)$, respectively. For instance, $H=\begin{bmatrix}0.6&0.8\\0.8&0.6\end{bmatrix}$ is homophilic for both types, but with $\tau=0.5$ we get $\theta_1=\theta_{-1}=-0.5$: no agent is ever comfortable. Moreover, since $f_a$ only takes values $m/n$ with $0\le m\le n\le k$, the dynamics depends on $\theta_i$ only through the set of these fractions that do not exceed it.
 
 \paragraph{Neutral types.} If $\Delta_i=0$, then $I_a^H=h_i$ for every non-empty neighborhood, and also $\iota_i=h_i$. If $h_i\le\tau$, the type is inert. If $h_i>\tau$, its agents are always uncomfortable but no empty site can improve their discomfort, so they never move (\emph{frozen} type).
 
