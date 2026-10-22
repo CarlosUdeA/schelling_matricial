@@ -388,6 +388,8 @@ Funciones del paquete:
 |---|---|
 | `calcular_observables(reticula, cfg)` | Los observables del §6.2 para cualquier retícula. |
 | `phi(reticula, S, vecindad="moore", radio=1)` | Potencial de aristas `Φ = Σ S[t(u), t(v)]` sobre los pares de vecinos ocupados. `S` debe ser simétrica. Con `S` entera, el resultado es un entero exacto. |
+| `parametros_reducidos(cfg)` | Solo para el modelo P con dos tipos e `iota="max"`. Para cada tipo devuelve un dict con la orientación `s` (+1 homofílico, −1 heterofílico, 0 neutral), el umbral reducido `theta` (`Fraction`) y el `regimen`: `"inerte"`, `"activo"`, `"siempre_incomodo"` o `"congelado"`. Es la Proposición 1 del artículo. |
+| `config_reducida(cfg)` | La configuración del Schelling clásico equivalente a `cfg` (filas de `H` normalizadas y umbrales `theta`). Con la misma semilla produce exactamente la misma trayectoria. |
 
 ---
 
@@ -432,6 +434,17 @@ En el modelo S, `tau` se mide en las unidades de la suma. Con
 cfg = Config(L=40, poblaciones=(700, 700), H=[[0, 1], [1, 0]], tau=[0.3, 0.7], seed=0)
 r = Simulacion(cfg).ejecutar()
 print(r["u"], r["C_occ"])
+```
+
+Con dos tipos en el modelo P, el comportamiento de cada tipo solo depende de su
+orientación y de su umbral reducido (ver `parametros_reducidos` en el §8):
+
+```python
+from schelling_matricial import Config, parametros_reducidos
+
+cfg = Config(L=40, poblaciones=(700, 700), H=[[0.6, 0.8], [0.8, 0.6]], tau=0.5)
+for tipo, p in enumerate(parametros_reducidos(cfg), start=1):
+    print(tipo, p["s"], p["theta"], p["regimen"])   # theta = -1/2: siempre incómodo
 ```
 
 ### 9.4 Comprobar el potencial en el modelo S
