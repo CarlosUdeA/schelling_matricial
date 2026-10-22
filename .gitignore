@@ -11,3 +11,10 @@ dist/
 # Entorno y resultados
 .venv/
 resultados/
+
+# Artículos y documentos en PDF: no se suben al repositorio público
+# (derechos de autor). Si hiciera falta uno, usar `git add -f`.
+*.pdf
+
+# Archivos de sistema de macOS
+.DS_Store
