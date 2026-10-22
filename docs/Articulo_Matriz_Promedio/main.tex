@@ -61,7 +61,7 @@ We introduce the local discomfort function $I^H$ and the total discomfort of a c
 
 \section{Introduction}
 
-The study of social segregation models was pioneered by economist Thomas Schelling in 1971 \cite{schelling1971dynamic}. In this model, agents are located on a grid and relocated if their dissatisfaction exceeds a given tolerance threshold, seeking to maximize their individual well-being.
+The study of social segregation models was pioneered by economist Thomas Schelling in 1971 \cite{schelling1971dynamic}. In this model, agents are located on a grid and relocated if their discomfort exceeds a given tolerance threshold, seeking to maximize their individual well-being.
 
 Schelling's foundational framework has provided a basis for analyzing complex social dynamics and emergent behavior. For instance Clark and Fossett \cite{clark2008understanding} extended the model by assigning distinct tolerance levels to individual agents, enabling the study of heterogeneous segregation patterns. Pancs and Vriend \cite{pancs2007schelling} integrated the model into a microeconomic framework, demonstrating that high levels of segregation can emerge even when residents' individual preferences favor complete integration. Similarly, Goles et al. \cite{goles2020migration} applied Sakoda's seminal framework to migration processes involving three agent types governed by rules of attraction, repulsion, or indifference. Their approach first establishes the stabilization of an energy function for a two-agent system before introducing a third agent type (migrants), allowing them to assess shifts in social tension. Finally, Hatna and Benenson \cite{hatna2012schelling} examined ethnic and racial segregation by assigning varying tolerance thresholds across different demographic groups and comparing the resulting macro-patterns with Schelling's baseline results.
 
@@ -201,100 +201,69 @@ where $B$ is the set of agents, other than $a$, that are neighbors of $x$ or of 
 
 \section{Characterization of the discomfort matrix}
 
-Suppose that the discomfort matrix is given by
+With two types, it is convenient to write each row of the discomfort matrix in terms of the own type of the agent. For $i\in\{1,-1\}$ let $h_i=H_{i,i}$ be the discomfort caused by a neighbor of the same type and $\bar h_i=H_{i,-i}$ the discomfort caused by a neighbor of the other type, so that
 \[
 H=\begin{bmatrix}
-a & b \\
-c & d
+h_1 & \bar h_1 \\
+\bar h_{-1} & h_{-1}
 \end{bmatrix},
+\qquad
+\Delta_i=\bar h_i-h_i .
 \]
-where the first row and column correspond to type $1$ and the second ones to type $-1$. (We use $a,b,c,d$ to avoid confusion with the parameters $\alpha,\beta$ of Section 3.) In the case where $a \neq b$, consider the positive affine transformation
+For an agent $a$ of type $i$ with $n_a>0$, let $f_a=I_a^{\mathrm{Cl}}=d_a/n_a$ be the fraction of neighbors of the other type and $g_a=1-f_a=s_a/n_a$ the fraction of neighbors of the same type. Then
 \[
-\widetilde{H}=\frac{1}{\left| b-a \right|}(H-a \textbf{1}),
+I_a^H=\frac{h_i s_a+\bar h_i d_a}{n_a}=h_i+\Delta_i f_a=\bar h_i-\Delta_i g_a, \tag{2}
 \]
-which, by Section 3, yields the same dynamics as $H$ with the tolerance threshold $\widetilde\tau=\frac{\tau-a}{|b-a|}$. This matrix
-which can be rewritten as
+and an isolated agent has $I_a^H=\iota_i=\max(h_i,\bar h_i)$. Thus the discomfort of each type is an affine function of a single fraction, whose slope is $\Delta_i$.
+
+\paragraph{Row-wise invariance.} The decisions of an agent of type $i$ only involve the $i$-th row of $H$, the threshold and the isolation value $\iota_i$. Hence the argument of Section 3 can be applied to each row separately: the transformation $H_{i,\cdot}\mapsto\alpha_i H_{i,\cdot}+\beta_i$, with $\alpha_i>0$, together with $\tau_i\mapsto\alpha_i\tau_i+\beta_i$, leaves the dynamics unchanged. Note that a common threshold $\tau$ becomes, in general, a threshold $\tau_i$ for each type.
+
+\begin{theorem}[Reduction to the classical model]\label{thm:reduction}
+Let $\Delta_i\neq 0$ for $i\in\{1,-1\}$, and define
 \[
-\widetilde{H}=\begin{bmatrix}
-0 & \epsilon \\
-\sigma & \rho
-\end{bmatrix},
+s_i=\operatorname{sgn}\Delta_i,\qquad
+\theta_i=\begin{cases}
+\dfrac{\tau-h_i}{\Delta_i}, & \Delta_i>0,\\[2ex]
+\dfrac{\tau-\bar h_i}{|\Delta_i|}, & \Delta_i<0.
+\end{cases}
 \]
-where $\varepsilon =\operatorname{sgn}(b-a)=\pm 1$, $\sigma=\frac{c-a}{\left| b-a \right|}$ and $\rho=\frac{d-a}{\left| b-a  \right|}.$
-Thus, for an agent $a$ with a non-empty neighborhood, its local discomfort function satisfies:
+Then the dynamics with discomfort matrix $H$ and threshold $\tau$ coincides, move by move, with that of the classical model in which an agent of type $i$ has discomfort $f_a$ if $s_i=1$ and $g_a$ if $s_i=-1$, tolerance threshold $\theta_i$, and an isolated agent has discomfort $1$.
+\end{theorem}
+
+\begin{proof}
+If $\Delta_i>0$, apply to the $i$-th row the transformation with $\alpha_i=1/\Delta_i$ and $\beta_i=-h_i/\Delta_i$. The row becomes $(0,1)$ (same type, other type), so by (2) the discomfort becomes $f_a$, the threshold becomes $\theta_i$, and the isolation value becomes $\max(0,1)=1$. If $\Delta_i<0$, take $\alpha_i=1/|\Delta_i|$ and $\beta_i=-\bar h_i/|\Delta_i|$. The row becomes $(1,0)$, the discomfort becomes $g_a$, the threshold becomes $\theta_i$, and the isolation value becomes $1$. By the row-wise invariance, the dynamics is unchanged.
+\end{proof}
+
+Therefore, with two populations, a type with $s_i=1$ is a Schelling agent that tolerates a proportion $\theta_i$ of neighbors of the other type (homophilic), and a type with $s_i=-1$ is a Schelling agent with inverted preference, that tolerates a proportion $\theta_i$ of neighbors of its own type (heterophilic). In other words, the averaged model with two populations is a classical Schelling model with population-specific thresholds and, possibly, inverted preferences, in the line of the models with heterogeneous tolerances \cite{clark2008understanding,hatna2012schelling}. Two matrices with the same parameters $(s_i,\theta_i)$ yield the same dynamics; in particular, the intergroup asymmetry $\bar h_1\neq\bar h_{-1}$ has no dynamical content of its own. With the isolation value $\iota_i=\max_j H_{i,j}$, isolation is equivalent, in the reduced model, to a neighborhood made only of non-tolerated neighbors, and no further parameter appears.
+
+\paragraph{Regimes.} The sign of $\Delta_i$ fixes the direction in which agents of type $i$ move, but not whether they move. Since $f_a,g_a\in[0,1]$ and isolation is valued as $1$, each type is in one of the following regimes:
 \begin{itemize}
-    \item $I_a^{\widetilde{H}}=\varepsilon I_a^{\mathrm{Cl}}$, if the type of $a$ is $1$;
-    \item $I_a^{\widetilde{H}}=\rho+(\sigma-\rho)I_a^{\mathrm{Cl}}$, if the type of $a$ is $-1$.
+    \item \emph{inert} if $\theta_i\ge 1$: its agents are never uncomfortable, not even when isolated;
+    \item \emph{active} if $0\le\theta_i<1$;
+    \item \emph{always uncomfortable} if $\theta_i<0$: its agents are uncomfortable in every neighborhood, move as long as they can reduce $f_a$ (or $g_a$), and any fixed point of the dynamics is blocked.
 \end{itemize}
-Thus, the behavior of type $1$ agents depends on $\varepsilon$, and that of type $-1$ agents depends on $\sigma-\rho=\frac{c-d}{\left| b-a  \right|}.$
+In terms of the entries of $H$, these regimes read $\tau\ge\max(h_i,\bar h_i)$, $\min(h_i,\bar h_i)\le\tau<\max(h_i,\bar h_i)$ and $\tau<\min(h_i,\bar h_i)$, respectively. For instance, $H=\begin{bmatrix}0.6&0.8\\0.8&0.6\end{bmatrix}$ is homophilic for both types, but with $\tau=0.5$ we get $\theta_1=\theta_{-1}=-0.5$: no agent is ever comfortable. Moreover, since $f_a$ only takes values $m/n$ with $0\le m\le n\le 8$, the dynamics depends on $\theta_i$ only through the set of these fractions that do not exceed it.
 
-In the case $a=b$, the discomfort of a type $1$ agent with a non-empty neighborhood is the constant $a$, whatever its neighbors are, so type $1$ agents are neutral; the behavior of type $-1$ agents is still determined by the sign of $c-d$.
-Based on the discomfort matrix $\widetilde{H}$, the behavior of the agents is summarized in the following tables
+\paragraph{Neutral types.} If $\Delta_i=0$, then $I_a^H=h_i$ for every non-empty neighborhood, and also $\iota_i=h_i$. If $h_i\le\tau$, the type is inert. If $h_i>\tau$, its agents are always uncomfortable but no empty site can improve their discomfort, so they never move (\emph{frozen} type).
 
-\begin{table}[h!]
-\centering
-\begin{tabular}{|c|c|c|c|}
-\hline
-$\varepsilon$ & $\sigma - \rho$ & type $1$ & type $-1$ \\
-\hline
-$1$ & $\sigma - \rho > 0$ & homophilic & homophilic \\
-\hline
-$1$ & $\sigma - \rho = 0$ & homophilic & neutral \\
-\hline
-$1$ & $\sigma - \rho < 0$ & homophilic & heterophilic \\
-\hline
-$-1$ & $\sigma - \rho > 0$ & heterophilic & homophilic \\
-\hline
-$-1$ & $\sigma - \rho = 0$ & heterophilic & neutral \\
-\hline
-$-1$ & $\sigma - \rho < 0$ & heterophilic & heterophilic \\
-\hline
-\end{tabular}
-\end{table}
-
-and, in terms of the entries of the discomfort matrix $H$,
+The behavior of each type is summarized in Table~\ref{tab:types}. Since the decisions of each type only depend on its own row, the behavior of the two types can be combined freely.
 
 \begin{table}[h!]
 \centering
-\begin{tabular}{|c|c|c|c|}
+\begin{tabular}{|c|c|c|c|p{3.6cm}|}
 \hline
-$b - a$ & $c - d$ & type $1$ & type $-1$ \\
+$\Delta_i$ & preference & reduced discomfort & $\theta_i$ & regimes \\
 \hline
-$b - a > 0$ & $c - d > 0$ & homophilic & homophilic \\
+$\Delta_i>0$ & homophilic & $f_a$ & $\dfrac{\tau-h_i}{\Delta_i}$ & inert, active or always uncomfortable \\[1.5ex]
 \hline
-$b - a > 0$ & $c - d = 0$ & homophilic & neutral \\
+$\Delta_i<0$ & heterophilic & $g_a$ & $\dfrac{\tau-\bar h_i}{|\Delta_i|}$ & inert, active or always uncomfortable \\[1.5ex]
 \hline
-$b - a > 0$ & $c - d < 0$ & homophilic & heterophilic \\
-\hline
-$b - a < 0$ & $c - d > 0$ & heterophilic & homophilic \\
-\hline
-$b - a < 0$ & $c - d = 0$ & heterophilic & neutral \\
-\hline
-$b - a < 0$ & $c - d < 0$ & heterophilic & heterophilic \\
-\hline
-$b - a = 0$ & $c - d > 0$ & neutral & homophilic \\
-\hline
-$b - a = 0$ & $c - d = 0$ & neutral & neutral \\
-\hline
-$b - a = 0$ & $c - d < 0$ & neutral & heterophilic \\
+$\Delta_i=0$ & neutral & constant $h_i$ & --- & inert ($h_i\le\tau$) or frozen ($h_i>\tau$) \\
 \hline
 \end{tabular}
+\caption{Behavior of the agents of type $i\in\{1,-1\}$, with $h_i=H_{i,i}$, $\bar h_i=H_{i,-i}$ and $\Delta_i=\bar h_i-h_i$.}
+\label{tab:types}
 \end{table}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 \newpage
