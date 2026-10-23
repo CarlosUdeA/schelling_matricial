@@ -42,6 +42,8 @@
 %\theoremstyle{corollary}
 \newtheorem{corollary}{Corollary}
 
+\newtheorem{proposition}{Proposition}
+
 \title{A matrix extension of the Schelling model based on local discomfort
 }
 \author{David Bl\'azquez-Sanz, Luis F. Jim\'enez Buitrago, Carlos Alberto Mar\'{\i}n Arango \& Juan J. Usuga }
@@ -231,20 +233,20 @@ and an isolated agent has $I_a^H=\iota_i=\max(h_i,\bar h_i)$. Thus the discomfor
 \begin{theorem}[Reduction to the classical model]\label{thm:reduction}
 Let $\Delta_i\neq 0$ for $i\in\{1,-1\}$, and define
 \[
-s_i=\operatorname{sgn}\Delta_i,\qquad
+\varepsilon_i=\operatorname{sgn}\Delta_i,\qquad
 \theta_i=\begin{cases}
 \dfrac{\tau-h_i}{\Delta_i}, & \Delta_i>0,\\[2ex]
 \dfrac{\tau-\bar h_i}{|\Delta_i|}, & \Delta_i<0.
 \end{cases}
 \]
-Then the dynamics with discomfort matrix $H$ and threshold $\tau$ coincides, move by move, with that of the classical model in which an agent of type $i$ has discomfort $f_a$ if $s_i=1$ and $g_a$ if $s_i=-1$, tolerance threshold $\theta_i$, and an isolated agent has discomfort $1$.
+Then the dynamics with discomfort matrix $H$ and threshold $\tau$ coincides, move by move, with that of the classical model in which an agent of type $i$ has discomfort $f_a$ if $\varepsilon_i=1$ and $g_a$ if $\varepsilon_i=-1$, tolerance threshold $\theta_i$, and an isolated agent has discomfort $1$.
 \end{theorem}
 
 \begin{proof}
 If $\Delta_i>0$, apply to the $i$-th row the transformation with $\alpha_i=1/\Delta_i$ and $\beta_i=-h_i/\Delta_i$. The row becomes $(0,1)$ (same type, other type), so by (2) the discomfort becomes $f_a$, the threshold becomes $\theta_i$, and the isolation value becomes $\max(0,1)=1$. If $\Delta_i<0$, take $\alpha_i=1/|\Delta_i|$ and $\beta_i=-\bar h_i/|\Delta_i|$. The row becomes $(1,0)$, the discomfort becomes $g_a$, the threshold becomes $\theta_i$, and the isolation value becomes $1$. By the row-wise invariance, the dynamics is unchanged.
 \end{proof}
 
-Therefore, with two populations, a type with $s_i=1$ is a Schelling agent that tolerates a proportion $\theta_i$ of neighbors of the other type (homophilic), and a type with $s_i=-1$ is a Schelling agent with inverted preference, that tolerates a proportion $\theta_i$ of neighbors of its own type (heterophilic). In other words, the averaged model with two populations is a classical Schelling model with population-specific thresholds and, possibly, inverted preferences, in the line of the models with heterogeneous tolerances \cite{clark2008understanding,hatna2012schelling}. Two matrices with the same parameters $(s_i,\theta_i)$ yield the same dynamics; in particular, the intergroup asymmetry $\bar h_1\neq\bar h_{-1}$ has no dynamical content of its own. With the isolation value $\iota_i=\max_j H_{i,j}$, isolation is equivalent, in the reduced model, to a neighborhood made only of non-tolerated neighbors, and no further parameter appears.
+Therefore, with two populations, a type with $\varepsilon_i=1$ is a Schelling agent that tolerates a proportion $\theta_i$ of neighbors of the other type (homophilic), and a type with $\varepsilon_i=-1$ is a Schelling agent with inverted preference, that tolerates a proportion $\theta_i$ of neighbors of its own type (heterophilic). In other words, the averaged model with two populations is a classical Schelling model with population-specific thresholds and, possibly, inverted preferences, in the line of the models with heterogeneous tolerances \cite{clark2008understanding,hatna2012schelling}. Two matrices with the same parameters $(\varepsilon_i,\theta_i)$ yield the same dynamics; in particular, the intergroup asymmetry $\bar h_1\neq\bar h_{-1}$ has no dynamical content of its own. With the isolation value $\iota_i=\max_j H_{i,j}$, isolation is equivalent, in the reduced model, to a neighborhood made only of non-tolerated neighbors, and no further parameter appears.
 
 \paragraph{Regimes.} The sign of $\Delta_i$ fixes the direction in which agents of type $i$ move, but not whether they move. Since $f_a,g_a\in[0,1]$ and isolation is valued as $1$, each type is in one of the following regimes:
 \begin{itemize}
@@ -275,14 +277,156 @@ $\Delta_i=0$ & neutral & constant $h_i$ & --- & inert ($h_i\le\tau$) or frozen (
 \label{tab:types}
 \end{table}
 
-\paragraph{Schelling and anti-Schelling behavior.} When both types are non-neutral, the behavior of the system is classified by the orientations $s_1$ and $s_{-1}$:
+\paragraph{Schelling and anti-Schelling behavior.} When both types are non-neutral, the behavior of the system is classified by the orientations $\varepsilon_1$ and $\varepsilon_{-1}$:
 \begin{itemize}
-    \item \emph{Schelling behavior} if $s_1=s_{-1}=1$: both types are homophilic and, by Theorem~\ref{thm:reduction}, the dynamics is that of a classical Schelling model with population-specific thresholds, which favors segregated configurations;
-    \item \emph{anti-Schelling behavior} if $s_1=s_{-1}=-1$: both types are heterophilic and the dynamics is that of a classical Schelling model in which the preference is inverted in both populations, each agent tolerating a proportion $\theta_i$ of neighbors of its own type. It is the opposite of the classical dynamics, and it favors mixed configurations, in which agents of different types alternate;
-    \item \emph{mixed (pursuit) behavior} if $s_1 s_{-1}=-1$: the agents of the homophilic type try to avoid those of the other type, while the agents of the heterophilic type seek them.
+    \item \emph{Schelling behavior} if $\varepsilon_1=\varepsilon_{-1}=1$: both types are homophilic and, by Theorem~\ref{thm:reduction}, the dynamics is that of a classical Schelling model with population-specific thresholds, which favors segregated configurations;
+    \item \emph{anti-Schelling behavior} if $\varepsilon_1=\varepsilon_{-1}=-1$: both types are heterophilic and the dynamics is that of a classical Schelling model in which the preference is inverted in both populations, each agent tolerating a proportion $\theta_i$ of neighbors of its own type. It is the opposite of the classical dynamics, and it favors mixed configurations, in which agents of different types alternate;
+    \item \emph{mixed (pursuit) behavior} if $\varepsilon_1 \varepsilon_{-1}=-1$: the agents of the homophilic type try to avoid those of the other type, while the agents of the heterophilic type seek them.
 \end{itemize}
 Thus the matrix $H$ determines both the preference of each population (homophilic, neutral or heterophilic) and the behavior of the system as a whole.
 
+
+\section{The counting rule}\label{sec:counting}
+
+In the model of the previous sections, the discomfort of an agent is the average of the coefficients of $H$ over its occupied neighbors, so it depends on the proportions of the different types in the neighborhood. We now consider the \emph{counting rule}, in which the discomfort is the sum of these coefficients. It depends on the numbers of neighbors of each type and, through an additional coefficient, on the number of empty neighboring sites. In what follows we call the model of Sections 2--4 the \emph{averaged rule}.
+
+\subsection{Definition}
+
+We extend the discomfort matrix with a column for empty sites: $H_{i,\emptyset}$ is the discomfort that an agent of type $i$ experiences due to an empty neighboring site. For an agent $a$ at position $x$, let $e_a=k-n_a$ be the number of empty sites in $V(x)$. The \emph{counting discomfort} of $a$ is
+\[
+S_a^H=\sum_{b\in\mathcal{N}_{\mathrm{occ}}(a)} H_{t_a,t_b}+e_a\,H_{t_a,\emptyset}. \tag{3}
+\]
+The dynamics is the one of Section 2 with $S^H$ in place of $I^H$: an agent $a$ at $x$ is uncomfortable if $S_x^H(a)>\tau$, and then it moves to the nearest empty site $y$ of the grid such that $S_y^H(a)<S_x^H(a)$, with ties broken at random. As before, when an empty site $y$ is evaluated, $a$ itself is not counted as a neighbor of $y$; if $x\in V(y)$, the site $x$ counts as an empty neighbor of $y$.
+
+\paragraph{Isolated agents.} An isolated agent has $S_a^H=k\,H_{t_a,\emptyset}$, so the counting rule does not need any convention for isolation.
+
+\paragraph{Relation with the averaged rule.} For an agent with $n_a>0$, the definitions (3) and $I_a^H=\frac{1}{n_a}\sum_{b}H_{t_a,t_b}$ give
+\[
+S_a^H=k\,H_{t_a,\emptyset}+n_a\left(I_a^H-H_{t_a,\emptyset}\right). \tag{4}
+\]
+In particular, if $H_{i,\emptyset}=0$, then $S_a^H=n_a I_a^H$. Hence an agent is comfortable under the counting rule if and only if $I_a^H\le\tau/n_a$: the counting rule is an averaged rule whose threshold depends on the number of occupied neighbors. Moreover, $S_y^H(a)<S_x^H(a)$ means $n_y I_y^H(a)<n_x I_x^H(a)$, which differs from $I_y^H(a)<I_x^H(a)$ unless $n_x=n_y$. The two rules take the same decisions when all the neighborhoods involved are full ($n=k$), with thresholds related by $\tau_S=k\,\tau_P$; the whole difference between them lies in the treatment of empty sites.
+
+\paragraph{Classical model by counts.} With $H^{\mathrm{Cl}}$ and $H_{i,\emptyset}=0$ we get $S_a^H=d_a$: the agent tolerates at most $\tau$ neighbors of the other type, with $\tau\in\{0,\dots,k\}$. This model is not equivalent to the classical model by proportions: an agent with a single neighbor, of the other type, has $d_a=1$ but $f_a=1$.
+
+\paragraph{Relation with Sakoda's model.} If $A$ is a matrix of attitudes, with positive entries for attraction and negative entries for repulsion, the counting discomfort with $H=-A$ and $H_{i,\emptyset}=0$ is minus the social expectation of Sakoda's model with interactions restricted to the neighborhood, as in \cite{medina2017self,goles2020migration}. The counting rule differs from Sakoda's dynamics in the threshold $\tau$, since only uncomfortable agents move, and in the choice of the destination, which is the nearest improving site instead of the best one.
+
+\subsection{Invariances}
+
+\begin{proposition}[Invariances of the counting rule]\label{prop:invariances}
+The dynamics of the counting rule is unchanged by the following transformations:
+\begin{enumerate}
+    \item[(a)] $H\mapsto\lambda H$ (including the column $\emptyset$) and $\tau\mapsto\lambda\tau$, with $\lambda>0$;
+    \item[(b)] for each type $i$, $H_{i,\cdot}\mapsto\lambda_i H_{i,\cdot}+\mu_i$, applied to the extended row $(H_{i,j})_j$ together with $H_{i,\emptyset}$, and $\tau_i\mapsto\lambda_i\tau_i+k\mu_i$, with $\lambda_i>0$ and $\mu_i\in\mathbb R$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+In (b), since $n_a+e_a=k$, the counting discomfort of an agent of type $i$ becomes $\lambda_i S_a^H+k\mu_i$. Since $\lambda_i>0$, the comparisons with the threshold and between sites are preserved. Part (a) is the particular case $\lambda_i=\lambda$, $\mu_i=0$.
+\end{proof}
+
+Taking $\lambda_i=1$ and $\mu_i=-H_{i,\emptyset}$ in (b), every row can be brought to $H_{i,\emptyset}=0$, with entries $H_{i,j}-H_{i,\emptyset}$ and threshold $\tau_i-kH_{i,\emptyset}$. Hence the column of empty sites does not add parameters to the model: what matters is the difference between the discomfort caused by a neighbor and that caused by an empty site. In the rest of this section we assume, without loss of generality, that $H_{i,\emptyset}=0$.
+
+\begin{remark}
+Unlike the averaged rule, the counting rule is not invariant under a translation of the entries of $H$ for occupied neighbors alone. If $H_{i,j}\mapsto H_{i,j}+\beta$ for all types $j$, with $H_{i,\emptyset}$ fixed, then $S_a^H\mapsto S_a^H+\beta n_a$, which depends on the number of neighbors: with $\beta>0$ agents prefer emptier neighborhoods, and with $\beta<0$ denser ones. The invariance group of the counting rule is therefore smaller than that of the averaged rule, and this is precisely what makes the counting rule richer.
+\end{remark}
+
+\subsection{Two populations: archetypes of preference}
+
+With two types and $H_{i,\emptyset}=0$, let $a_i=H_{i,i}$ be the weight of a neighbor of the same type and $b_i=H_{i,-i}$ the weight of a neighbor of the other type. Then
+\[
+S_a^H=a_i\,s_a+b_i\,d_a \tag{5}
+\]
+is a linear form on the integer points of the triangle $\{(s,d): s,d\ge 0,\ s+d\le k\}$, and not a function of the fraction $f_a$ alone. If $(a_i,b_i)\neq(0,0)$, Proposition~\ref{prop:invariances}(b) shows that only the direction $\varphi_i=\operatorname{atan2}(b_i,a_i)$ and the reduced threshold $\hat\tau_i=\tau_i/\|(a_i,b_i)\|$ matter. Each type is thus described by an angle and a threshold, whereas under the averaged rule it is described by a sign $\varepsilon_i$ and a threshold $\theta_i$ (Theorem~\ref{thm:reduction}).
+
+Geometrically, under the averaged rule an agent with $n_a>0$ is comfortable if and only if $(h_i-\tau)s_a+(\bar h_i-\tau)d_a\le 0$, a half-plane in the variables $(s_a,d_a)$ whose boundary passes through the origin. Under the counting rule the comfort region $a_i s_a+b_i d_a\le\tau_i$ is an arbitrary half-plane. The signs of $(a_i,b_i)$ give the archetypes of Table~\ref{tab:archetypes}.
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|c|c|l|l|}
+\hline
+$a_i$ (same type) & $b_i$ (other type) & archetype & preference \\
+\hline
+$0$ & $+$ & classical by counts & avoids the other type \\
+$-$ & $+$ & segregationist (Sakoda) & seeks its own type, avoids the other \\
+$-$ & $0$ & cohesive & seeks its own type \\
+$-$ & $-$ & gregarious & seeks dense neighborhoods \\
+$+$ & $+$ & misanthropic & seeks isolation \\
+$+$ & $-$ & heterophilic & seeks the other type, avoids its own \\
+$0$ & $-$ & --- & seeks the other type \\
+$+$ & $0$ & --- & avoids its own type \\
+$0$ & $0$ & neutral & indifferent \\
+\hline
+\end{tabular}
+\caption{Archetypes of preference of a type $i$ under the counting rule, with $H_{i,\emptyset}=0$.}
+\label{tab:archetypes}
+\end{table}
+
+Under the averaged rule only $\Delta_i=b_i-a_i$ matters. Hence the averaged rule cannot distinguish, for instance, the classical, segregationist and cohesive archetypes, which are all homophilic, and it cannot represent a preference for denser or emptier neighborhoods, as in the gregarious and misanthropic archetypes. Note also that, by Proposition~\ref{prop:invariances}(b), the magnitudes of $b_1$ and $b_{-1}$ do not matter by themselves, since each row can be scaled separately; what matters are the directions $\varphi_i$.
+
+\subsection{Potential and convergence}
+
+For two types $i,j$, let $E_{i,j}(\eta)$ be the number of pairs of neighboring sites occupied by agents of types $i$ and $j$.
+
+\begin{proposition}[Weighted potential]\label{prop:potential}
+Suppose that there exist weights $w_i>0$ and a symmetric matrix $M$, indexed by the types, such that $H_{i,j}-H_{i,\emptyset}=w_i M_{i,j}$ for all types $i,j$. Let
+\[
+\Phi(\eta)=\sum_{\{u,v\}} M_{\eta(u),\eta(v)},
+\]
+where the sum runs over the unordered pairs of neighboring sites that are both occupied. If an agent $a$ of type $i$ moves from $x$ to $y$, producing $\eta'$ from $\eta$, then
+\[
+\Phi(\eta')-\Phi(\eta)=\frac{S_y^H(a)-S_x^H(a)}{w_i}<0.
+\]
+Consequently, the dynamics reaches a fixed point after a finite number of moves, for every threshold, every rule for choosing the destination and every order of update.
+\end{proposition}
+
+\begin{proof}
+For a site $z$, $S_z^H(a)=kH_{i,\emptyset}+w_i\sum_{v}M_{i,\eta(v)}$, where the sum runs over the occupied sites $v\in V(z)$ other than the position of $a$. When $a$ moves, only the pairs that contain it change: those at $x$ disappear and those at $y$ appear. Hence $\Phi(\eta')-\Phi(\eta)=(S_y^H(a)-S_x^H(a))/w_i$, which is negative by the movement rule. Since $\Phi$ strictly decreases at every move and the number of configurations is finite, the dynamics stops.
+\end{proof}
+
+For $w_i=1$ and $H=-A$, with $A$ a symmetric matrix of attitudes, this is the energy principle of Sakoda's model \cite{medina2017self,goles2020migration}; the weights $w_i$ allow non-symmetric matrices $H$. With two populations, the condition of Proposition~\ref{prop:potential} holds if and only if $b_1 b_{-1}>0$ or $b_1=b_{-1}=0$, with no restriction on $a_1,a_{-1}$ (take $w_i=|b_i|$, or $w_i=1$ if $b_i=0$). In particular, the classical model by counts always converges, and its potential is the number of pairs of neighbors of different types. The case in which only one of the populations is indifferent to the other one is covered by a lexicographic potential.
+
+\begin{proposition}[One indifferent population]\label{prop:lexicographic}
+With two populations, suppose that $b_1=0$ and $b_{-1}\neq 0$. Then the dynamics of the counting rule reaches a fixed point after a finite number of moves.
+\end{proposition}
+
+\begin{proof}
+Let $\Phi_1=a_1E_{1,1}$ and $\Phi_{-1}=a_{-1}E_{-1,-1}+b_{-1}E_{1,-1}$. If an agent of type $1$ moves, $\Phi_1$ changes by $S_y^H(a)-S_x^H(a)<0$, since by (5) its discomfort is $a_1 s_a$. If an agent of type $-1$ moves, $E_{1,1}$ and hence $\Phi_1$ do not change, while $\Phi_{-1}$ changes by $S_y^H(a)-S_x^H(a)<0$. Therefore the pair $(\Phi_1,\Phi_{-1})$ strictly decreases in the lexicographic order at every move, and the dynamics stops.
+\end{proof}
+
+Thus, with two populations, the only case in which the convergence of the counting rule is not guaranteed is $b_1 b_{-1}<0$, which we call \emph{pursuit}: one population is attracted by the other, which avoids it. Whether the dynamics converges in this case is an open question. For the averaged rule, in contrast, the total discomfort is not a Lyapunov function (Section 3.1).
+
+\subsection{Averaged rule versus counting rule}
+
+Table~\ref{tab:comparison} summarizes the differences between the two rules.
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|p{3.6cm}|p{5cm}|p{5cm}|}
+\hline
+ & averaged rule & counting rule \\
+\hline
+depends on & proportions of neighbors & numbers of neighbors and of empty sites \\
+\hline
+isolated agents & require a convention ($\iota_i=\max_j H_{i,j}$) & natural value $kH_{i,\emptyset}$ \\
+\hline
+invariances & $\alpha_i H_{i,\cdot}+\beta_i$, $\alpha_i>0$, on the occupied entries & $\lambda_i H_{i,\cdot}+\mu_i$, $\lambda_i>0$, on the extended row \\
+\hline
+parameters of a type ($n=2$) & sign $\varepsilon_i$ and threshold $\theta_i$ & direction $\varphi_i$ and threshold $\hat\tau_i$ \\
+\hline
+comfort region in $(s_a,d_a)$ & half-plane through the origin & arbitrary half-plane \\
+\hline
+reduction to the classical model ($n=2$) & exact (Theorem~\ref{thm:reduction}) & no: new archetypes \\
+\hline
+potential & $I^H$ is not a Lyapunov function & yes if $b_1b_{-1}>0$ (Prop.~\ref{prop:potential}); convergence also if exactly one $b_i=0$ (Prop.~\ref{prop:lexicographic}) \\
+\hline
+full neighborhoods & \multicolumn{2}{c|}{same decisions, with $\tau_S=k\,\tau_P$} \\
+\hline
+\end{tabular}
+\caption{Comparison between the averaged rule and the counting rule.}
+\label{tab:comparison}
+\end{table}
+
+With two populations, the genuinely new behavior lies in the counting rule and in the role of empty sites. With three or more populations both rules are new, since under the averaged rule the discomfort of a type depends on the vector of proportions of the other types and no longer reduces to a single fraction.
 
 \newpage
 \bibliographystyle{ieeetr}
