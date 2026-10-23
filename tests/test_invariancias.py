@@ -106,3 +106,36 @@ def test_invariancia_P_con_iota_max():
             t1, t2 = trayectoria(original), trayectoria(transformado)
             assert len(t1) > 2
             assert iguales(t1, t2)
+
+
+def test_invariancia_S_fila_a_fila():
+    # Cada fila extendida (incluida la columna de vacío) se transforma con su
+    # propio (λ_i, μ_i), λ_i > 0, y τ_i -> λ_i τ_i + k μ_i: como n + e = k,
+    # S -> λ_i S + k μ_i y la dinámica no cambia.
+    k = 8
+    H = [[Fraction(1, 5), Fraction(9, 10), Fraction(3, 10)],
+         [Fraction(2, 5), Fraction(-1, 10), Fraction(-7, 10)]]
+    tau = [Fraction(1, 2), Fraction(-1, 5)]
+    lam, mu = [Fraction(3), Fraction(1, 4)], [Fraction(-1, 2), Fraction(2)]
+    Ht = [[lam[i] * x + mu[i] for x in H[i]] for i in range(2)]
+    taut = [lam[i] * tau[i] + k * mu[i] for i in range(2)]
+    for seed in range(3):
+        base = dict(L=20, poblaciones=(90, 90), modelo="S", seed=seed)
+        t1 = trayectoria(Config(**base, H=H, tau=tau))
+        assert len(t1) > 2
+        assert iguales(t1, trayectoria(Config(**base, H=Ht, tau=taut)))
+
+
+def test_columna_de_vacio_se_puede_anular_en_S():
+    # Caso particular: μ_i = -H[i, vac], λ_i = 1 lleva toda fila a H[i, vac] = 0
+    # con umbral τ_i - k H[i, vac].
+    k = 8
+    H = [[Fraction(1, 5), Fraction(9, 10), Fraction(3, 10)],
+         [Fraction(2, 5), Fraction(-1, 10), Fraction(-7, 10)]]
+    tau = Fraction(1, 2)
+    H0 = [[x - f[2] for x in f] for f in H]
+    tau0 = [tau - k * f[2] for f in H]
+    for seed in range(3):
+        base = dict(L=20, poblaciones=(90, 90), modelo="S", seed=seed)
+        assert iguales(trayectoria(Config(**base, H=H, tau=tau)),
+                       trayectoria(Config(**base, H=H0, tau=tau0)))
