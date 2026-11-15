@@ -19,6 +19,12 @@ Documentos de referencia, que hay que leer antes de trabajar en el paquete:
   investigación completo. Las secciones 3 y 4 contienen el marco matemático,
   los observables y el protocolo.
 
+El artículo (`main.tex`, `sample.bib`) vive en otro repositorio, sincronizado
+con Overleaf: `CarlosUdeA/Articulo_Matriz_Promedio` (privado), con copia local
+en `~/Desktop/Articulo_Matriz_Promedio`. Es la única fuente del artículo; ver
+`docs/ARTICULO.md`. Antes de editarlo, comprobar que la copia local está al
+día con Overleaf.
+
 ## Estructura del repositorio
 - `src/schelling_matricial/`: código del paquete (motor numpy).
 - `tests/`: pruebas con `pytest`.

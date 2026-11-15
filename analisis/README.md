@@ -29,7 +29,7 @@ scikit-learn, SALib, etc., que no son dependencias de `pyproject.toml`.
 - `01_primeros_pasos.ipynb`: una simulación del modelo clásico, retícula
   inicial y final, evolución de la segregación y barrido de `tau` con réplicas.
 - `02_verificacion_articulo.ipynb`: comprueba que el código implementa la
-  dinámica del artículo (`docs/Articulo_Matriz_Promedio`): modelo clásico,
-  aislados con `iota="max"`, regla de movimiento, invariancia afín,
-  incomodidad total, orientación de cada tipo y reducción al modelo clásico
-  (Teorema 1). Cada sección imprime `OK` o falla.
+  dinámica del artículo (ver `docs/ARTICULO.md`): modelo clásico, aislados
+  con `iota="max"`, regla de movimiento, invariancia afín, incomodidad total,
+  orientación de cada tipo y reducción al modelo clásico (Teorema 1). Cada
+  sección imprime `OK` o falla.
