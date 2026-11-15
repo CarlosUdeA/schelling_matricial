@@ -5,7 +5,7 @@ from fractions import Fraction
 import pytest
 
 from conftest import iguales, trayectoria
-from schelling_matricial import Config, config_reducida, parametros_reducidos
+from schelling_matricial import Config, config_reducida, forma_normal, parametros_reducidos
 
 TAU = Fraction(513, 1000)
 
@@ -70,3 +70,24 @@ def test_errores():
         parametros_reducidos(Config(L=20, poblaciones=(10, 10, 10), H=[[0, 1, 1]] * 3))
     with pytest.raises(ValueError):
         parametros_reducidos(Config(L=20, poblaciones=(10, 10), H=[[0, 1], [1, 0]], iota=0))
+
+
+@pytest.mark.parametrize("nombre", MATRICES)
+@pytest.mark.parametrize("poblaciones", [(150, 150), (60, 60)])
+def test_misma_trayectoria_que_la_forma_normal(nombre, poblaciones):
+    for seed in range(3):
+        cfg = Config(L=20, poblaciones=poblaciones, H=MATRICES[nombre], tau=TAU, seed=seed)
+        normal = forma_normal(cfg)
+        # Diagonal nula y antidiagonal en {-1, 0, 1}
+        H = normal.H_extendida
+        assert H[0][0] == H[1][1] == 0 and {H[0][1], H[1][0]} <= {-1, 0, 1}
+        assert iguales(trayectoria(cfg, 60), trayectoria(normal, 60))
+
+
+def test_forma_normal_de_neutrales():
+    # Ambos tipos neutrales: H(0, 0), y nadie se mueve.
+    cfg = Config(L=20, poblaciones=(100, 100),
+                 H=[[Fraction(3, 5), Fraction(3, 5)], [Fraction(1, 5), Fraction(1, 5)]], tau=TAU)
+    normal = forma_normal(cfg)
+    assert [f[:2] for f in normal.H_extendida] == [[0, 0], [0, 0]]
+    assert len(trayectoria(cfg, 10)) == 2       # estado inicial y un barrido sin movimientos

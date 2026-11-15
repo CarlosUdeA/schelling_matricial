@@ -390,6 +390,7 @@ Funciones del paquete:
 | `phi(reticula, S, vecindad="moore", radio=1)` | Potencial de aristas `Φ = Σ S[t(u), t(v)]` sobre los pares de vecinos ocupados. `S` debe ser simétrica. Con `S` entera, el resultado es un entero exacto. |
 | `parametros_reducidos(cfg)` | Solo para el modelo P con dos tipos e `iota="max"`. Para cada tipo devuelve un dict con la orientación `s` (+1 homofílico, −1 heterofílico, 0 neutral), el umbral reducido `theta` (`Fraction`) y el `regimen`: `"inerte"`, `"activo"`, `"siempre_incomodo"` o `"congelado"`. Es la Proposición 1 del artículo. |
 | `config_reducida(cfg)` | La configuración del Schelling clásico equivalente a `cfg` (filas de `H` normalizadas y umbrales `theta`). Con la misma semilla produce exactamente la misma trayectoria. |
+| `forma_normal(cfg)` | La forma normal `H(ε) = [[0, ε₁], [ε₋₁, 0]]` (entradas 0 y ±1) con los umbrales `τ̂_i = (τ − h_i)/|Δ_i|` (o `τ − h_i` si `Δ_i = 0`). Con la misma semilla produce exactamente la misma trayectoria que `cfg`. Es la proposición de forma normal del artículo. |
 
 ---
 

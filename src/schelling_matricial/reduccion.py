@@ -98,3 +98,26 @@ def config_reducida(cfg: Config) -> Config:
         filas.append(fila)
         umbrales.append(theta)
     return dataclasses.replace(cfg, H=filas, tau=umbrales, iota="max")
+
+
+def forma_normal(cfg: Config) -> Config:
+    """Forma normal H(ε) del artículo (Proposición de forma normal).
+
+    A cada fila se le resta su entrada diagonal h_i y, si Δ_i != 0, se divide
+    por |Δ_i|: la fila (propio, otro) queda (0, ε_i), con ε_i = sgn Δ_i en
+    {-1, 0, 1}. El umbral pasa a τ̂_i = (τ_i - h_i)/|Δ_i|, o τ_i - h_i si
+    Δ_i = 0. Con la misma semilla produce exactamente la misma trayectoria.
+    """
+    _comprobar(cfg)
+    H = cfg.H_extendida
+    tau = _umbrales(cfg)
+    filas, umbrales = [], []
+    for i in range(2):
+        h, hb = H[i][i], H[i][1 - i]
+        c = hb - h
+        epsilon = (c > 0) - (c < 0)
+        fila = [0, 0]
+        fila[1 - i] = epsilon
+        filas.append(fila)
+        umbrales.append((tau[i] - h) / abs(c) if c != 0 else tau[i] - h)
+    return dataclasses.replace(cfg, H=filas, tau=umbrales, iota="max")
