@@ -81,3 +81,48 @@ def test_potencial_lexicografico_con_un_tipo_indiferente():
         resultado = sim.ejecutar(al_mover=al_mover)
         assert estado["movimientos"] > 0
         assert resultado["motivo_parada"] == "punto_fijo"
+
+
+# Proposición lexicográfica general: clases C_1, ..., C_m tales que un tipo de
+# C_r solo se ve afectado por tipos de C_1 ∪ ... ∪ C_r, con potencial con pesos
+# dentro de cada clase. Φ_r se codifica como una matriz simétrica para phi():
+# pares dentro de C_r con M^(r) y pares C_r–C_q (q < r) con H[i][j]/w_i.
+CASOS_LEX = {
+    # Jerarquía 1 <- 2 <- 3 (clases unitarias, w_i = 1).
+    "jerarquia": dict(
+        H=[[-1, 0, 0], [2, -1, 0], [1, -2, 1]], tau=-1,
+        potenciales=[
+            [[-1, 0, 0], [0, 0, 0], [0, 0, 0]],
+            [[0, 2, 0], [2, -1, 0], [0, 0, 0]],
+            [[0, 0, 1], [0, 0, -2], [1, -2, 1]],
+        ]),
+    # Población neutral (tipo 2) afectada por 1 y 3, que se rechazan entre sí
+    # y no se ven afectados por ella: clases {1, 3} y {2}.
+    "neutral": dict(
+        H=[[0, 0, 1], [1, 0, 1], [1, 0, 0]], tau=0,
+        potenciales=[
+            [[0, 0, 1], [0, 0, 0], [1, 0, 0]],
+            [[0, 1, 0], [1, 0, 1], [0, 1, 0]],
+        ]),
+}
+
+
+@pytest.mark.parametrize("nombre", CASOS_LEX)
+def test_potencial_lexicografico_tres_tipos(nombre):
+    caso = CASOS_LEX[nombre]
+    for seed in range(3):
+        cfg = Config(L=16, poblaciones=(50, 50, 50), H=caso["H"], tau=caso["tau"],
+                     modelo="S", seed=seed, T_max=500, parar_en_repeticion=False)
+        sim = Simulacion(cfg)
+        vector = lambda: tuple(phi(sim.reticula, P) for P in caso["potenciales"])
+        estado = {"phi": vector(), "movimientos": 0}
+
+        def al_mover(a, tipo, x, y, I_x, I_y):
+            nuevo = vector()
+            assert nuevo < estado["phi"]       # orden lexicográfico de tuplas
+            estado["phi"] = nuevo
+            estado["movimientos"] += 1
+
+        resultado = sim.ejecutar(al_mover=al_mover)
+        assert estado["movimientos"] > 0
+        assert resultado["motivo_parada"] == "punto_fijo"
